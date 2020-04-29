@@ -10,7 +10,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MemeMe_1_0" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MemeMe1_0" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -51,6 +51,16 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nIk-au-wQI">
                                 <rect key="frame" x="0.0" y="88" width="414" height="676"/>
                             </imageView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="TOP" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C4z-nT-jtz">
+                                <rect key="frame" x="0.0" y="138" width="414" height="18.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="BOTTOM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a2j-fE-Zze">
+                                <rect key="frame" x="0.0" y="695.5" width="414" height="18.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -58,10 +68,16 @@
                             <constraint firstItem="2aF-58-4rs" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="5rd-Ds-qNC"/>
                             <constraint firstItem="xbO-4k-IKo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="7Hk-Vk-w2H"/>
                             <constraint firstItem="xbO-4k-IKo" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="AVi-VR-2k8"/>
+                            <constraint firstItem="xbO-4k-IKo" firstAttribute="top" secondItem="a2j-fE-Zze" secondAttribute="bottom" constant="50" id="BE4-j0-YEN"/>
+                            <constraint firstItem="a2j-fE-Zze" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GTt-BU-uUo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="a2j-fE-Zze" secondAttribute="trailing" id="GxA-ez-LgM"/>
                             <constraint firstItem="2aF-58-4rs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="IIX-v5-heF"/>
                             <constraint firstItem="nIk-au-wQI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="NSU-cd-wjp"/>
                             <constraint firstItem="xbO-4k-IKo" firstAttribute="top" secondItem="nIk-au-wQI" secondAttribute="bottom" id="RM0-Is-VMf"/>
                             <constraint firstItem="nIk-au-wQI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="RcU-ka-jpj"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="C4z-nT-jtz" secondAttribute="trailing" id="UcK-Vw-kL9"/>
+                            <constraint firstItem="C4z-nT-jtz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="bFC-5T-R7L"/>
+                            <constraint firstItem="C4z-nT-jtz" firstAttribute="top" secondItem="2aF-58-4rs" secondAttribute="bottom" constant="50" id="kxQ-60-nXk"/>
                             <constraint firstItem="nIk-au-wQI" firstAttribute="top" secondItem="2aF-58-4rs" secondAttribute="bottom" id="lv0-c1-s9U"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xbO-4k-IKo" secondAttribute="bottom" id="rkW-yh-MPT"/>
                         </constraints>
@@ -71,12 +87,14 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="albumButton" destination="yZN-Ix-czx" id="FS8-yj-WQ1"/>
+                        <outlet property="bottomTextField" destination="a2j-fE-Zze" id="bVw-Oc-0og"/>
                         <outlet property="cameraButton" destination="yPl-5k-I3q" id="EDd-7e-O9j"/>
                         <outlet property="cancelButton" destination="Mxy-VG-pJA" id="IfH-mj-dnw"/>
                         <outlet property="memeImageView" destination="nIk-au-wQI" id="Twb-YS-xRw"/>
                         <outlet property="shareButton" destination="NkS-mg-7Oo" id="xJo-nU-C3y"/>
                         <outlet property="toolbarBottom" destination="xbO-4k-IKo" id="zRt-vW-3E1"/>
                         <outlet property="toolbarTop" destination="2aF-58-4rs" id="Bfz-qB-ShX"/>
+                        <outlet property="topTextField" destination="C4z-nT-jtz" id="tUb-kY-psQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
