@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MemeViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
 	@IBOutlet weak var toolbarTop: UIToolbar!
 	@IBOutlet weak var toolbarBottom: UIToolbar!
@@ -31,62 +31,74 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
 		NSAttributedString.Key.strokeWidth:  -4.5
 	]
 	
+	let defaultTopText = "ENTER TOP TEXT"
+	let defaultBottomText = "ENTER BOTTOM TEXT"
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		shareButton.isEnabled = false
 		cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
 		
 		//MARK: Set Text Attributes
-		topTextField.attributedPlaceholder = NSAttributedString(string: "TOP", attributes: memeTextAttributes)
-		topTextField.defaultTextAttributes = memeTextAttributes
-		topTextField.textAlignment = .center
-		topTextField.delegate = self
-		
-		bottomTextField.attributedPlaceholder = NSAttributedString(string: "BOTTOM", attributes: memeTextAttributes)
-		bottomTextField.defaultTextAttributes = memeTextAttributes
-		bottomTextField.textAlignment = .center
-		bottomTextField.delegate = self
+		setMemeText(textField: topTextField, defaultText: defaultTopText)
+		setMemeText(textField: bottomTextField, defaultText: defaultBottomText)
 	}
 	
 	//MARK: ACTIONS
 	@IBAction func shareButtonPressed(_ sender: UIBarButtonItem) {
-		let image = [generateMemedImage()]
-		let ac = UIActivityViewController(activityItems: image, applicationActivities: nil)
+		let origImage = memeImageView.image
+		let memedImage = [generateMemedImage()]
+		let ac = UIActivityViewController(activityItems: memedImage, applicationActivities: nil)
+		ac.completionWithItemsHandler = { [weak self] type, completed, items, error in
+			
+			
+			if completed {
+				let meme = Meme(topText: self!.topTextField.text!, bottomText: self!.bottomTextField.text!, origImage: origImage!, memedImage: memedImage)
+		    }
+			
+			ac.dismiss(animated: true, completion: nil)
+		}
+		
 		present(ac, animated: true)
 	}
 	
 	@IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
-		topTextField.text = "TOP"
-		bottomTextField.text = "BOTTOM"
+		topTextField.text = defaultTopText
+		bottomTextField.text = defaultBottomText
 		shareButton.isEnabled = false
 		memeImageView.image = nil
 	}
 	
-	@IBAction func cameraButtonPressed(_ sender: UIBarButtonItem) {
-		imagePicker.delegate = self
+    func pickFromSource(_ source: UIImagePickerController.SourceType) {
+        let imagePicker = UIImagePickerController()
 		imagePicker.allowsEditing = true
-		imagePicker.mediaTypes = ["public.image"]
-		imagePicker.sourceType = .camera
-		
-		present(imagePicker, animated: true, completion: nil)
+        imagePicker.delegate = self;
+        imagePicker.sourceType = source
+        present(imagePicker, animated: true, completion: nil)
+    }
+	
+	@IBAction func cameraButtonPressed(_ sender: UIBarButtonItem) {
+		endTextFieldEditing()
+		pickFromSource(.camera)
 	}
 	
 	@IBAction func albumButtonPressed(_ sender: UIBarButtonItem) {
-		imagePicker.delegate = self
-		imagePicker.allowsEditing = true
-		imagePicker.mediaTypes = ["public.image"]
-		imagePicker.sourceType = .photoLibrary
-		
-		present(imagePicker, animated: true, completion: nil)
+		endTextFieldEditing()
+		pickFromSource(.photoLibrary)
 	}
 	
 	//MARK: TextField Actions
 	func textFieldDidBeginEditing(_ textField: UITextField) {
-		textField.placeholder = ""
+		textField.text = ""
 		
 		if textField == bottomTextField {
 			subscribeToKeyboardNotifications()
 		}
+	}
+	
+	func endTextFieldEditing(){
+		bottomTextField.endEditing(true)
+		topTextField.endEditing(true)
 	}
 	
 	func textFieldDidEndEditing(_ textField: UITextField) {
@@ -94,7 +106,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
 			unsubscribeFromKeyboardNotifications()
 		}
 	}
-	
+		
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textField.resignFirstResponder()
 		return true
@@ -149,12 +161,20 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
 
 		UIGraphicsBeginImageContext(self.view.frame.size)
 		view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
-		let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+		let memedImage = UIGraphicsGetImageFromCurrentImageContext()!
 		UIGraphicsEndImageContext()
 		
 		toolbarBottom.isHidden = false
 		toolbarTop.isHidden = false
 		return memedImage
+	}
+	
+	func setMemeText(textField: UITextField, defaultText: String){
+		
+		textField.text = defaultText
+		textField.defaultTextAttributes = memeTextAttributes
+		textField.textAlignment = .center
+		textField.delegate = self
 	}
 }
 
